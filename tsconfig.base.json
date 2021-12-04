@@ -14,7 +14,12 @@
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
-    "paths": {}
+    "paths": {
+      "@webworker-tests/buildable-worker": [
+        "libs/buildable-worker/src/index.ts"
+      ],
+      "@webworker-tests/with-worker": ["libs/with-worker/src/index.ts"]
+    }
   },
   "exclude": ["node_modules", "tmp"]
 }

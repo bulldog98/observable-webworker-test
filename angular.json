@@ -1,6 +1,32 @@
 {
   "version": 1,
   "projects": {
+    "buildable-worker": {
+      "projectType": "library",
+      "root": "libs/buildable-worker",
+      "sourceRoot": "libs/buildable-worker/src",
+      "prefix": "webworker-tests",
+      "architect": {
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/buildable-worker"],
+          "options": {
+            "jestConfig": "libs/buildable-worker/jest.config.js",
+            "passWithNoTests": true
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "libs/buildable-worker/src/**/*.ts",
+              "libs/buildable-worker/src/**/*.html"
+            ]
+          }
+        }
+      },
+      "tags": []
+    },
     "webworker-tests": {
       "projectType": "application",
       "root": "apps/webworker-tests",
@@ -8,7 +34,7 @@
       "prefix": "webworker-tests",
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-angular:browser",
+          "builder": "@nrwl/angular:webpack-browser",
           "outputs": ["{options.outputPath}"],
           "options": {
             "outputPath": "dist/apps/webworker-tests",
@@ -58,16 +84,18 @@
           "defaultConfiguration": "production"
         },
         "serve": {
-          "builder": "@angular-devkit/build-angular:dev-server",
+          "builder": "@nrwl/web:file-server",
+          "options": {
+            "buildTarget": "webworker-tests:build",
+            "withDeps": true,
+            "parallel": true
+          },
           "configurations": {
             "production": {
-              "browserTarget": "webworker-tests:build:production"
-            },
-            "development": {
-              "browserTarget": "webworker-tests:build:development"
+              "buildTarget": "webworker-tests:build:production"
             }
           },
-          "defaultConfiguration": "development"
+          "defaultConfiguration": "production"
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
@@ -122,6 +150,32 @@
       },
       "tags": [],
       "implicitDependencies": ["webworker-tests"]
+    },
+    "with-worker": {
+      "projectType": "library",
+      "root": "libs/with-worker",
+      "sourceRoot": "libs/with-worker/src",
+      "prefix": "webworker-tests",
+      "architect": {
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/with-worker"],
+          "options": {
+            "jestConfig": "libs/with-worker/jest.config.js",
+            "passWithNoTests": true
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "libs/with-worker/src/**/*.ts",
+              "libs/with-worker/src/**/*.html"
+            ]
+          }
+        }
+      },
+      "tags": []
     }
   }
 }
